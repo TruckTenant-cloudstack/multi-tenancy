@@ -14,8 +14,7 @@
 
 BASE_DIR=`dirname $0`
 function dependencyCheck()
-{
-    if [ -d $BASE_DIR/freeboard -a -d $BASE_DIR/tools -a -d $BASE_DIR/sparkstreaming -a -d $BASE_DIR/restapi -a -d $BASE_DIR/batchprocessing -a -d $BASE_DIR/oozie/batch_analytics]; then    
+{   if [ -d $BASE_DIR/freeboard -a -d $BASE_DIR/tools -a -d $BASE_DIR/sparkstreaming -a -d $BASE_DIR/restapi ]; then
         echo "Required folders check done successfully." 
     else
         echo "Cloned Github repository may not be the latest code - or - this tool has been moved from the rest of the multi-tenancy folder." 
