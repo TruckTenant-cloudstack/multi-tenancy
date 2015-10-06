@@ -1,0 +1,90 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides: sparkstreaming
+# Required-Start: $remote_fs $syslog
+# Required-Stop: $remote_fs $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: sparkstreaming
+# Description: This file starts and stops spark-streaming job.
+# 
+### END INIT INFO
+
+BASE_DIR=/opt/truck
+LOG_DIR=$BASE_DIR/logs
+SERVICE_NAME="SPARK_STREAMING"
+
+if [ -d $BASE_DIR ];then
+    mkdir -p $LOG_DIR
+else
+    echo "Provided BASE_DIR path - \"$BASE_DIR\" doesn't exist, skipping the execution"
+    exit 1;
+fi
+
+do_action()
+{
+    pid1=`ps -ef | grep -i "spark_streaming_start.sh" | grep -v "grep" | awk '{ printf $2 }'`
+    pid2=`ps -ef | grep -i "bimarian-streaming-jar-with-dependencies.jar" | grep -v "grep" | awk '{ printf $2 }'`
+    if [ ! -z "$pid1"  -a  ! -z "$pid2" ];then
+        
+        if [ "$1" != "status" ]; then
+            echo "STOPPING $SERVICE_NAME SERVICE ...."
+            pid3=`ps -o pid= --ppid $pid2`
+	    kill -9 $pid1
+            kill -n -9 $pid2
+            kill -9 $pid3
+            sleep 5;
+            echo "STOPPED $SERVICE_NAME SERVICE: OK"
+        fi
+        return 0;
+    else
+        return 1;
+    fi
+}
+
+do_start()
+{
+   echo "STARTING $SERVICE_NAME SERVICE ...."
+   $BASE_DIR/spark_streaming_start.sh > $LOG_DIR/spark_streaming_start.log 2>&1 &
+   sleep 10
+   echo "STARTED $SERVICE_NAME SERVICE, Please check the log: $LOG_DIR/spark_streaming_start.log"
+}
+
+case "$1" in
+ start)
+   do_action status
+   st=$?
+   if [ $st -eq 0 ]; then
+       echo "$SERVICE_NAME SERVICE IS ALREADY RUNNING"
+       exit 1;
+   fi
+   do_start 
+   ;;
+ stop)
+   do_action stop
+   ;;
+ status)
+   do_action status
+   st=$?
+   if [ $st -eq 0 ]; then
+       echo "$SERVICE_NAME SERVICE IS RUNNING" 
+   elif [ $st -eq 1 ]; then
+       echo "$SERVICE_NAME SERVICE IS NOT RUNNING"
+   fi
+   ;;
+ restart)
+   do_action status
+   st=$?
+   if [ $st -eq 0 ]; then
+       do_action stop
+       sleep 10
+   elif [ $st -eq 1 ]; then
+       echo "$SERVICE_NAME SERVICE IS NOT RUNNING"
+   fi 
+   do_start
+  ;;
+ *)
+   echo "Usage: sparkstreaming {start|stop|status|restart}" >&2
+   exit 3
+   ;;
+esac

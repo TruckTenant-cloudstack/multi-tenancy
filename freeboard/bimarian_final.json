@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "allow_edit": false,
+  "plugins": [],
+  "panes": [
+    {
+      "title": "Oil",
+      "width": 1,
+      "row": {
+        "2": 1,
+        "3": 1,
+        "4": 1
+      },
+      "col": {
+        "2": 1,
+        "3": 1,
+        "4": 1
+      },
+      "col_width": 2,
+      "widgets": [
+        {
+          "type": "jqPlotWidget",
+          "settings": {
+            "id": "chart1",
+            "data": "var oilArr = [];\nvar len1 = datasources[\"Resource2\"][\"Oil\"].length;\nconsole.log(\"lenght: \"+len1);\nfor(var i=0;i<len1;i++) {    \n    var d= new Date(parseInt(datasources[\"Resource2\"][\"Oil\"][i][\"date\"]));\n       var datetext = d.toTimeString();\n    \t datetext = datetext.split(' ')[0];\n    console.log(\"date: \"+datetext);\n    console.log(\"json data\"+[datetext,datasources[\"Resource2\"][\"Oil\"][i][\"value\"]]);\n    oilArr.push([datetext,datasources[\"Resource2\"][\"Oil\"][i][\"value\"]]);\n}\nreturn [oilArr];",
+            "options": "{\n\taxesDefaults: {\n        rendererOptions: {\n\t\t\tbaselineWidth: 1.5,\n\t\t\tdrawBaseline: false\n\t\t}\n\t},\n\tseriesDefaults: {\n\t\tlabel: 'Oil',\n\t\trendererOptions: {\n\t\t\tsmooth: true\n\t\t}\n\t},\n\taxes: {\n\t\txaxis: {\n\t\t\trenderer: $.jqplot.CategoryAxisRenderer,\n\t\t\tdrawMajorGridlines: false,\n\t\t\tshowTicks: false,\n\t\t\tshowTickMarks: false\n\t\t},\n\t\tyaxis: {\n\t\t\tmin: 100,\n\t\t\tmax: 600,\n\t\t\ttickInterval: 50,\n\t\t\ttickOptions: {\n\t\t\t\tformatString: \"%d\",\n\t\t\t\tshowGridline:true\n\t\t\t},\n\t\t\trendererOptions: {\n\t\t\t\talignTicks: true,\n\t\t\t\tforceTickAt0: true\n\t\t\t}\n\t\t}\n\t},\n\thighlighter: {\n\t\tshow: true,\n\t\tsizeAdjust: 10,\n\t\ttooltipFormatString: '<b><i><span style=\"color:red;\">hello</span></i></b> %1f',\n\t\tuseAxesFormatters: true,\n\t\ttooltipAxes: 'y'\n\t},\n\tlegend: {\n\t\trenderer: jQuery.jqplot.EnhancedLegendRenderer,\n\t\tshow: true,\n\t\tlocation: 'n',\n\t\tmarginLeft: \"0px\",\n\t\tmarginTop: \"0px\",\n\t\tmarginBottom: \"25px\",\n\t\tstyle: 'dash',\n\t\tplacement: 'outsideGrid',\n\t\tborder: '0px',\n\t\trowSpacing: '2.5em',\n\t\tshowSwatch: false,\n\t\trendererOptions: {\n\t\t\tnumberRows: '1',\n\t\t},\n\t}\n}",
+            "chartHeight": 300,
+            "chartWidth": 600,
+            "height": 5
+          }
+        }
+      ]
+    },
+    {
+      "title": "Weight",
+      "width": 1,
+      "row": {
+        "2": 13,
+        "3": 13,
+        "4": 1
+      },
+      "col": {
+        "2": 1,
+        "3": 1,
+        "4": 3
+      },
+      "col_width": 2,
+      "widgets": [
+        {
+          "type": "jqPlotWidget",
+          "settings": {
+            "id": "chart2",
+            "data": "var weightArr = [];\nvar len1 = datasources[\"Resource2\"][\"weight\"].length;\nconsole.log(\"lenght: \"+len1);\nfor(var i=0;i<len1;i++) {    \n    var d= new Date(parseInt(datasources[\"Resource2\"][\"weight\"][i][\"date\"]));\n       var datetext = d.toTimeString();\n    \t datetext = datetext.split(' ')[0];\n    console.log(\"date: \"+datetext);\n    console.log(\"json data\"+[datetext,datasources[\"Resource2\"][\"weight\"][i][\"value\"]]);\n    weightArr.push([datetext,datasources[\"Resource2\"][\"weight\"][i][\"value\"]]);\n}\nreturn [weightArr];",
+            "options": "{\n\taxesDefaults: {\n        rendererOptions: {\n\t\t\tbaselineWidth: 1.5,\n\t\t\tdrawBaseline: false\n\t\t}\n\t},\n\tseriesDefaults: {\n\t\tlabel: 'Weight',\n\t\trendererOptions: {\n\t\t\tsmooth: true\n\t\t}\n\t},\n\taxes: {\n\t\txaxis: {\n\t\t\trenderer: $.jqplot.CategoryAxisRenderer,\n\t\t\tdrawMajorGridlines: false,\n\t\t\tshowTicks: false,\n\t\t\tshowTickMarks: false\n\t\t},\n\t\tyaxis: {\n\t\t\tmin: 50,\n\t\t\tmax: 150,\n\t\t\ttickInterval: 30,\n\t\t\ttickOptions: {\n\t\t\t\tformatString: \"%d\",\n\t\t\t\tshowGridline:true\n\t\t\t},\n\t\t\trendererOptions: {\n\t\t\t\talignTicks: true,\n\t\t\t\tforceTickAt0: true\n\t\t\t}\n\t\t}\n\t},\n\thighlighter: {\n\t\tshow: true,\n\t\tsizeAdjust: 10,\n\t\ttooltipFormatString: '<b><i><span style=\"color:red;\">hello</span></i></b> %1f',\n\t\tuseAxesFormatters: true,\n\t\ttooltipAxes: 'y'\n\t},\n\tlegend: {\n\t\trenderer: jQuery.jqplot.EnhancedLegendRenderer,\n\t\tshow: true,\n\t\tlocation: 'n',\n\t\tmarginLeft: \"0px\",\n\t\tmarginTop: \"0px\",\n\t\tmarginBottom: \"25px\",\n\t\tstyle: 'dash',\n\t\tplacement: 'outsideGrid',\n\t\tborder: '0px',\n\t\trowSpacing: '2.5em',\n\t\tshowSwatch: false,\n\t\trendererOptions: {\n\t\t\tnumberRows: '1',\n\t\t},\n\t}\n}",
+            "chartHeight": 300,
+            "chartWidth": 600,
+            "height": 5
+          }
+        }
+      ]
+    },
+    {
+      "title": "Course",
+      "width": 1,
+      "row": {
+        "3": 1,
+        "4": 1
+      },
+      "col": {
+        "3": 2,
+        "4": 3
+      },
+      "col_width": 2,
+      "widgets": [
+        {
+          "type": "custom_google_map",
+          "settings": {
+            "lat": "datasources[\"Resource1\"][0][\"Lat\"]",
+            "lon": "datasources[\"Resource1\"][0][\"Lon\"]",
+            "drawPath": true
+          }
+        }
+      ]
+    }
+  ],
+  "datasources": [
+    {
+      "name": "Resource2",
+      "type": "JSON",
+      "settings": {
+        "url": " ",
+        "use_thingproxy": true,
+        "refresh": 5,
+        "method": "GET"
+      }
+    },
+    {
+      "name": "Resource1",
+      "type": "JSON",
+      "settings": {
+        "url": "",
+        "use_thingproxy": true,
+        "refresh": 5,
+        "method": "GET"
+      }
+    }
+  ],
+  "columns": 4
+}

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bimarian</title>
+    <!-- Bootstrap Styles-->
+    <link href="assets/css/bootstrap.css" rel="stylesheet" />
+	<!-- FontAwesome Styles-->
+	<link href="assets/css/font-awesome.css" rel="stylesheet" />
+	<!-- Custom Styles-->
+    <link href="assets/css/custom-styles.css" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+	<script src="assets/js/jquery-1.10.2.js"></script>
+	<link href="css/bimarian.css" rel="stylesheet" />
+    <script src="js/freeboard.thirdparty.min.js"></script>
+    <script type="text/javascript">
+        head.js("js/freeboard+plugins.min.js",
+                // *** Load more plugins here ***
+				"js/bimarian/line_highcharts.js",
+				"js/bimarian/plugins_jqplot.js",
+                function(){
+                    $(function()
+                    { 
+						freeboard.initialize(true);	
+					});
+				});
+    </script>
+<script src="graph_line_functions.js"></script>
+
+<style>
+
+
+</style>
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+			<img src="assets/img/logo-bimarian.jpg" class="img-responsive" style="padding:2px 2px 2px 10px; float:left;" />
+        </nav>
+        <!--/. NAV TOP  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+			<div class="row heading-inn" style="padding-bottom:0;">
+				<div class="col-md-8 col-sm-8 col-xs-8">
+					<div class="col-md-3 col-sm-12 col-xs-12">
+						<h1 class="page-header">
+                            <div id="refname">Dashboard </div>
+                        </h1>
+					</div>
+					<div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="form-group row">
+							<label>Select Tenant</label>
+							<select class="form-control" name="tenants" id="tenants" onchange="dispDevices(this.value);">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-12 col-xs-12">
+						<div class="form-group row">
+							<label>Select Devices</label>
+							<select class="form-control" name="devices" id="devices" onchange="showLabels();">
+								<option value="">Select</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4 alert-box" style="margin-top:-20px;">
+					<!--
+					<div class="alertTitle">
+						<img src="img/Alert.png" class="icon">
+						<div class="titleText subNormal">Alerts</div>
+					</div> -->
+					
+					<div class="newAlert subNormal">
+						<div class="text floatLeft"  id="alerts"></div>
+						<div class="time floatRight"></div>
+						<span class="clear"></span>
+					</div>
+				</div>
+				
+				</div>
+				
+                <!-- /. ROW  -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+<div id="board-content">
+<img id="dash-logo" data-bind="attr:{src: header_image}, visible:header_image()">
+<div class="gridster responsive-column-width">
+<ul data-bind="grid: true">
+</ul>
+</div>
+</div>
+<header id="main-header" data-bind="if:allow_edit">
+<div id="admin-bar">
+<div id="admin-menu">
+<div id="datasources">
+<h2 class="title">DATASOURCES</h2>
+
+<div class="datasource-list-container">
+	<table class="table table-condensed sub-table" id="datasources-list" data-bind="if: datasources().length">
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Last Updated</th>
+			<th>&nbsp;</th>
+		</tr>
+		</thead>
+		<tbody data-bind="foreach: datasources">
+		<tr>
+			<td>
+				<span class="text-button datasource-name" data-bind="text: name, pluginEditor: {operation: 'edit', type: 'datasource'}"></span>
+			</td>
+			<td data-bind="text: last_updated"></td>
+			<td>
+				<ul class="board-toolbar">
+					<li data-bind="click: updateNow"><i class="icon-refresh icon-white"></i></li>
+					<li data-bind="pluginEditor: {operation: 'delete', type: 'datasource'}">
+						<i class="icon-trash icon-white"></i></li>
+				</ul>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+<span class="text-button table-operation" data-bind="pluginEditor: {operation: 'add', type: 'datasource'}">ADD</span>
+</div>
+</div>
+</div>
+<div id="column-tools" class="responsive-column-width">
+<ul class="board-toolbar left-columns">
+<li class="column-tool add" data-bind="click: addGridColumnLeft"><span class="column-icon right"></span><i class="icon-arrow-left icon-white"></i></li>
+<li class="column-tool sub" data-bind="click: subGridColumnLeft"><span class="column-icon left"></span><i class="icon-arrow-right icon-white"></i></li>
+</ul>
+<ul class="board-toolbar right-columns">
+<li class="column-tool sub" data-bind="click: subGridColumnRight"><span class="column-icon right"></span><i class="icon-arrow-left icon-white"></i></li>
+<li class="column-tool add" data-bind="click: addGridColumnRight"><span class="column-icon left"></span><i class="icon-arrow-right icon-white"></i></li>
+</ul>
+</div>
+<div id="toggle-header" data-bind="click: toggleEditing">
+<i id="toggle-header-icon" class="icon-wrench icon-white"></i></div>
+</header>
+<div style="display:hidden">
+<ul data-bind="template: { name: 'pane-template', foreach: panes}">
+</ul>
+</div>
+
+<script type="text/html" id="pane-template">
+<li data-bind="pane: true">
+<header>
+<h1 data-bind="text: title"></h1>
+<ul class="board-toolbar pane-tools">
+<li data-bind="pluginEditor: {operation: 'add', type: 'widget'}">
+	<i class="icon-plus icon-white"></i>
+</li>
+<li data-bind="pluginEditor: {operation: 'edit', type: 'pane'}">
+	<i class="icon-wrench icon-white"></i>
+</li>
+<li data-bind="pluginEditor: {operation: 'delete', type: 'pane'}">
+	<i class="icon-trash icon-white"></i>
+</li>
+</ul>
+</header>
+<section data-bind="foreach: widgets">
+<div class="sub-section" data-bind="css: 'sub-section-height-' + height()">
+<div class="widget" data-bind="widget: true, css:{fillsize:fillSize}"></div>
+<div class="sub-section-tools">
+	<ul class="board-toolbar">
+		<!-- ko if:$parent.widgetCanMoveUp($data) -->
+		<li data-bind="click:$parent.moveWidgetUp"><i class="icon-chevron-up icon-white"></i></li>
+		<!-- /ko -->
+		<!-- ko if:$parent.widgetCanMoveDown($data) -->
+		<li data-bind="click:$parent.moveWidgetDown"><i class="icon-chevron-down icon-white"></i></li>
+		<!-- /ko -->
+		<li data-bind="pluginEditor: {operation: 'edit', type: 'widget'}"><i class="icon-wrench icon-white"></i></li>
+		<li data-bind="pluginEditor: {operation: 'delete', type: 'widget'}"><i class="icon-trash icon-white"></i></li>
+	</ul>
+</div>
+</div>
+</section>
+</li>
+</script>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+</body>
+</html>
