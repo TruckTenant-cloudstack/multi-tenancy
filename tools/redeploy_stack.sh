@@ -7,5 +7,5 @@ rm -rf /var/www/html/*
 rm -rf /opt/jetty/logs/*
 rm /opt/jetty/webapps/*.war
 rm /etc/init.d/sparkstreaming
-/root/trucktenant-cloudstack/multi-tenancy/setup.sh
+/root/TruckTenant-cloudstack/multi-tenancy/setup.sh
 /opt/truck/multi_tenancy_poc_setup.sh start
