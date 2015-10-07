@@ -1,0 +1,5 @@
+/root/TruckTenant-cloudstack/multi-tenancy/sparkstreaming/src/main/java/com/bimarian/beans/TruckDeviceBean.java
+/root/TruckTenant-cloudstack/multi-tenancy/sparkstreaming/src/main/java/com/bimarian/sources/PropertyFileReader.java
+/root/TruckTenant-cloudstack/multi-tenancy/sparkstreaming/src/main/java/com/bimarian/main/TruckManager.java
+/root/TruckTenant-cloudstack/multi-tenancy/sparkstreaming/src/main/java/com/bimarian/main/FilterEvents.java
+/root/TruckTenant-cloudstack/multi-tenancy/sparkstreaming/src/main/java/com/bimarian/main/TenantHandler.java
