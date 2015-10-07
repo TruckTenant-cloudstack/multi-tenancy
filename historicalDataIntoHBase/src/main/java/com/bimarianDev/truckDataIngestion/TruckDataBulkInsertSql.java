@@ -32,9 +32,10 @@ public class TruckDataBulkInsertSql implements Serializable {
 	public static void main(String[] args) throws  FileNotFoundException {
 		SparkConf conf = new SparkConf().setAppName("Truck Data Bulk Insert");
 
-		String [] inputFilePath = {"hdfs://hadoop1.test.com:8020/user/root/bhanu/datagen0910_vrl_service_12060100122_6MONdata_hyd_Siddipet_linux.json",
+		String [] inputFilePath = args;
+		/*{"hdfs://hadoop1.test.com:8020/user/root/bhanu/datagen0910_vrl_service_12060100122_6MONdata_hyd_Siddipet_linux.json",
 				"hdfs://hadoop1.test.com:8020/user/root/bhanu/datagen0910_vrl_service_12060100122_6MONdata_hyd_Vijayawada_linux.json",
-				"hdfs://hadoop1.test.com:8020/user/root/bhanu/datagen0910_vrl_service_12060100122_6MONdata_hyd_Warangal_linux.json"};
+				"hdfs://hadoop1.test.com:8020/user/root/bhanu/datagen0910_vrl_service_12060100122_6MONdata_hyd_Warangal_linux.json"};*/
 
 		JavaSparkContext javaSparkContext = new JavaSparkContext(conf);
 		JavaSQLContext sqlContext = new JavaSQLContext(javaSparkContext);
@@ -60,6 +61,8 @@ public class TruckDataBulkInsertSql implements Serializable {
 		StructType schema = DataType.createStructType(fields);
 		
 		for(int i=0;i<inputFilePath.length;i++){
+			System.out.println("arguments length: "+inputFilePath.length);
+			System.exit(0);
 		JavaSchemaRDD shemaRDD = sqlContext.jsonFile(inputFilePath[i],schema);
 		shemaRDD.registerTempTable("truck_table");
 		shemaRDD.printSchema();
